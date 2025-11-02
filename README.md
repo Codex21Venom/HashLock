@@ -38,7 +38,7 @@ HashLock/
 
 ### 1️⃣ Clone the repository
 ```bash
-  git clone https://github.com/<your-username>/HashLock.git
+  git clone https://github.com/Codex21Venom/HashLock.git
   cd HashLock
 ```
 ###2️⃣ Install required libraries

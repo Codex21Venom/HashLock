@@ -25,14 +25,13 @@ It verifies passwords, checks their strength, and safely stores their hashes for
 ---
 
 ## 🧩 Project Structure
+```plaintext
 HashLock/
 │
-├── hashlock.py # Main program file
+├── hashlock.py                  # Main program file
 ├── password_strength_checker.py # Password strength module
-└── README.md # Project documentation
-
-
----
+└── README.md                    # Project documentation
+```
 
 ## ⚙️ Installation
 

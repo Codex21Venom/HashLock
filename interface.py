@@ -68,3 +68,6 @@ def view_hash():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# This is for Vercel deployment
+app.debug = False

@@ -1,6 +1,6 @@
 # HashLock 🔒
 
-![HashLock Logo](./Gemini_Generated_Image_nlujianlujianluj.png)
+<img src="./Gemini_Generated_Image_nlujianlujianluj.png" alt="HashLock Logo" width="300" />
 
 ## About
 HashLock is a secure password management system with a modern web interface. It provides robust password strength checking, secure hashing using bcrypt, and an intuitive user interface for managing and verifying passwords.
@@ -31,7 +31,14 @@ HashLock is a secure password management system with a modern web interface. It 
 ## Demo Video
 Here's a quick demonstration of HashLock in action:
 
-![HashLock Demo](./Cybersecurity_Animation_Scene_Breakdown.mp4)
+https://github.com/Codex21Venom/HashLock/assets/Cybersecurity_Animation_Scene_Breakdown.mp4
+
+[▶️ Watch Demo Video](./Cybersecurity_Animation_Scene_Breakdown.mp4)
+
+*Note: If the video doesn't play above, you can:*
+- [Download the demo video](./Cybersecurity_Animation_Scene_Breakdown.mp4)
+- View it in the repository files
+- Or watch it on the [project website](https://hashlock-khaki.vercel.app/)
 
 ## 🧠 How It Works
 1. User enters a password — strength is checked instantly.  
@@ -101,6 +108,9 @@ The project is deployed on Vercel and is publicly accessible. The deployment aut
 
 ### Deployment URL
 [https://hashlock-khaki.vercel.app/](https://hashlock-khaki.vercel.app/)
+
+## Screenshots
+<img src="./DemoPic.png" alt="HashLock Interface" width="800" style="max-width: 100%;" />
 
 ## Contributing
 Feel free to contribute to this project by:

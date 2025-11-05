@@ -1,12 +1,16 @@
 # HashLock 🔒
 
-<img src="./Gemini_Generated_Image_nlujianlujianluj.png" alt="HashLock Logo" width="300" />
+<p align="center">
+  <a href="https://hash-lock.vercel.app/">
+    <img src="./Gemini_Generated_Image_nlujianlujianluj.png" alt="HashLock Logo" width="480" />
+  </a>
+</p>
 
 ## About
 HashLock is a secure password management system with a modern web interface. It provides robust password strength checking, secure hashing using bcrypt, and an intuitive user interface for managing and verifying passwords.
 
 ## Live Demo
-🌐 [Visit HashLock Website](https://hashlock-khaki.vercel.app/)
+🌐 [Visit HashLock Website](https://hash-lock.vercel.app/)
 
 ## Features
 
@@ -102,7 +106,7 @@ The application will be available at `http://localhost:5000`
 The project is deployed on Vercel and is publicly accessible. The deployment automatically updates when changes are pushed to the main branch.
 
 ### Deployment URL
-[https://hashlock-khaki.vercel.app/](https://hashlock-khaki.vercel.app/)
+[https://hash-lock.vercel.app/](https://hash-lock.vercel.app/)
 
 ## Contributing
 Feel free to contribute to this project by:
@@ -113,5 +117,3 @@ Feel free to contribute to this project by:
 ## Contact
 Project Link: [https://github.com/Codex21Venom/HashLock](https://github.com/Codex21Venom/HashLock)
 
----
-Created with ❤️ by Codex21Venom

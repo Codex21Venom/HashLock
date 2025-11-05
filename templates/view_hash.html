@@ -3,26 +3,31 @@
 {% block content %}
 <div class="card">
     <h2>View Hashed Password</h2>
-    {% if not hash_value %}
-    <form method="POST" action="{{ url_for('view_hash') }}" id="viewHashForm">
-        <div class="form-group">
-            <label for="password">Enter Password to View Hash:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
+    {% if hash_value %}
+        <div class="hash-display">
+            <h3>Your Password Hash:</h3>
+            <div class="hash-value">{{ hash_value }}</div>
+            <div class="mt-3">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary" id="autoRedirect">Back to Menu</a>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">View Hash</button>
-    </form>
     {% else %}
-    <div class="hash-display">
-        {{ hash_value }}
-    </div>
+        {% if not error %}
+            <form method="POST" action="{{ url_for('view_hash') }}" id="viewHashForm">
+                <div class="form-group">
+                    <label for="password">Enter Password to View Hash:</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">View Hash</button>
+            </form>
+        {% endif %}
+        <div class="mt-3">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Menu</a>
+        </div>
     {% endif %}
-    
-    <div class="mt-3">
-        <a href="{{ url_for('index') }}" class="btn btn-secondary" {% if redirect_after %}id="autoRedirect"{% endif %}>Back to Menu</a>
-    </div>
 </div>
 
-{% if redirect_after %}
+{% if hash_value or redirect_after %}
 <script>
     // Auto-redirect back to menu after showing hash
     setTimeout(() => {

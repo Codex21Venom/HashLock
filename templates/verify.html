@@ -3,16 +3,34 @@
 {% block content %}
 <div class="card">
     <h2>Verify Password</h2>
-    <form method="POST" action="{{ url_for('verify') }}" id="verifyForm">
-        <div class="form-group">
-            <label for="password">Enter Password to Verify:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
+    {% if verification_success %}
+        <div class="success-message">
+            <h3>✅ Password Verified Successfully!</h3>
+            <div class="mt-3">
+                <a href="{{ url_for('index') }}" class="btn btn-secondary" id="autoRedirect">Back to Menu</a>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Verify Password</button>
-    </form>
-    
-    <div class="mt-3">
-        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Menu</a>
-    </div>
+    {% else %}
+        <form method="POST" action="{{ url_for('verify') }}" id="verifyForm">
+            <div class="form-group">
+                <label for="password">Enter Password to Verify:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Verify Password</button>
+        </form>
+        
+        <div class="mt-3">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Menu</a>
+        </div>
+    {% endif %}
 </div>
+
+{% if verification_success %}
+<script>
+    // Auto-redirect back to menu after showing success message
+    setTimeout(() => {
+        window.location.href = "{{ url_for('index') }}";
+    }, 2000);
+</script>
+{% endif %}
 {% endblock %}

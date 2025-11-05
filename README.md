@@ -9,7 +9,7 @@
 ## About
 HashLock is a secure password management system with a modern web interface. It provides robust password strength checking, secure hashing using bcrypt, and an intuitive user interface for managing and verifying passwords.
 
-## Live Demo
+## Live Website
 🌐 [Visit HashLock Website](https://hash-lock.vercel.app/)
 
 ## Features
@@ -32,8 +32,6 @@ HashLock is a secure password management system with a modern web interface. It 
 - Password strength visualization
 - Detailed feedback on password requirements
 
-## Demo
-Here's a quick demonstration of HashLock in action:
 
 <div align="center">
   <img src="./Cyber.gif" alt="HashLock Demo" width="800" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />

@@ -367,8 +367,8 @@ body::before {
 .vertical-menu {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    padding: 1rem 0;
+    gap: 2rem;  /* Increased spacing between buttons */
+    padding: 1.5rem 0;
 }
 
 .menu-btn {

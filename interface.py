@@ -1,13 +1,37 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
+from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, make_response
 from hashlock import hash_pass, verify_pass
 from password_strength_checker import check_password_strength
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Just for flash messages, not persistent sessions
+app.secret_key = os.urandom(24)  # Just for flash messages
+
+# Configure to never save cookies
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    PERMANENT_SESSION_LIFETIME=0,  # Sessions die immediately
+    SESSION_REFRESH_EACH_REQUEST=False,  # Don't refresh sessions
+)
 
 # In-memory storage (cleared when app restarts)
 current_hash = None
+
+@app.before_request
+def clear_cookies():
+    global current_hash
+    # Clear the current hash on every new browser session
+    if not request.cookies.get('session_started'):
+        current_hash = None
+
+@app.after_request
+def clear_session(response):
+    # Clear all cookies except the bare minimum needed for flash messages
+    if not request.path == '/':  # Don't clear on main page to allow flash messages
+        response.delete_cookie('session')
+    response.set_cookie('session_started', 'true', max_age=0)  # Expires when browser closes
+    return response
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
+from datetime import timedelta
 from hashlock import hash_pass, verify_pass
 from password_strength_checker import check_password_strength
 import os
@@ -10,8 +11,15 @@ app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))  # Use environment
 app.config.update(
     SESSION_COOKIE_SECURE=True,
     SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax'
+    SESSION_COOKIE_SAMESITE='Lax',
+    PREFERRED_URL_SCHEME='https'  # Force HTTPS
 )
+
+# Ensure session data persists in production
+app.config['SESSION_TYPE'] = 'filesystem'
+if os.environ.get('FLASK_ENV') == 'production':
+    app.config['SESSION_PERMANENT'] = True
+    app.permanent_session_lifetime = timedelta(days=1)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

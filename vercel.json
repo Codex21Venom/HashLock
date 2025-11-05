@@ -6,7 +6,12 @@
             "use": "@vercel/python"
         }
     ],
-    
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/interface.py"
+        }
+    ],
     "public": true,
     "headers": [
         {

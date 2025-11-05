@@ -6,12 +6,7 @@
             "use": "@vercel/python"
         }
     ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "interface.py"
-        }
-    ],
+    
     "public": true,
     "headers": [
         {

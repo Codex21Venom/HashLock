@@ -17,59 +17,49 @@ app.config.update(
 def index():
     if request.method == 'POST':
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
-        
         strength, tips = check_password_strength(password)
         
         if tips:  # Password is not strong enough
             return render_template('index.html', strength=strength, tips=tips)
         
-        if confirm_password:  # Confirmation phase
-            if password != confirm_password:
-                flash('Passwords do not match!', 'error')
-                return render_template('index.html', show_confirm=True)
-            
-            # Store the hash in session
-            session['password_hash'] = hash_pass(password).decode()
-            flash('Password set successfully!', 'success')
-            return redirect(url_for('verify'))
-        
-        # Show confirmation field if password is strong
-        return render_template('index.html', show_confirm=True)
+        # Store the hash in session
+        session['password_hash'] = hash_pass(password).decode()
+        flash('Password registered successfully!', 'success')
+        return redirect(url_for('index'))
     
     return render_template('index.html')
 
 @app.route('/verify', methods=['GET', 'POST'])
 def verify():
-    if 'password_hash' not in session:
-        flash('Please set a password first!', 'warning')
-        return redirect(url_for('index'))
-    
     if request.method == 'POST':
+        if 'password_hash' not in session:
+            flash('No password registered!', 'error')
+            return redirect(url_for('index'))
+            
         password = request.form.get('password')
         stored_hash = session['password_hash'].encode()
         
         if verify_pass(password, stored_hash):
-            flash('Password verified successfully!', 'success')
+            flash('Password verified successfully! ✅', 'success')
         else:
-            flash('Invalid password!', 'error')
+            flash('Invalid password! ❌', 'error')
     
     return render_template('verify.html')
 
 @app.route('/view-hash', methods=['GET', 'POST'])
 def view_hash():
-    if 'password_hash' not in session:
-        flash('Please set a password first!', 'warning')
-        return redirect(url_for('index'))
-    
     if request.method == 'POST':
+        if 'password_hash' not in session:
+            flash('No password registered!', 'error')
+            return redirect(url_for('index'))
+            
         password = request.form.get('password')
         stored_hash = session['password_hash'].encode()
         
         if verify_pass(password, stored_hash):
             return render_template('view_hash.html', hash_value=session['password_hash'])
         else:
-            flash('Invalid password!', 'error')
+            flash('Invalid password! Access denied.', 'error')
     
     return render_template('view_hash.html')
 

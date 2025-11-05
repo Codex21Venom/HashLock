@@ -2,26 +2,15 @@
 
 {% block content %}
 <div class="card">
-    <div class="menu">
-        <a href="{{ url_for('index') }}" class="btn btn-primary">Create Password</a>
-        <a href="{{ url_for('verify') }}" class="btn btn-primary">Verify Password</a>
-        <a href="{{ url_for('view_hash') }}" class="btn btn-primary">View Hash</a>
-    </div>
-
+    <h2>{% if not session.get('password_hash') %}Register Password{% else %}Register New Password{% endif %}</h2>
+    
     <form method="POST" action="{{ url_for('index') }}">
         <div class="form-group">
             <label for="password">Enter Password:</label>
             <input type="password" id="password" name="password" class="form-control" required>
         </div>
 
-        {% if show_confirm %}
-        <div class="form-group">
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
-        </div>
-        {% endif %}
-
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Register Password</button>
     </form>
 
     {% if strength %}

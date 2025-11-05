@@ -2,12 +2,13 @@
 
 {% block content %}
 <div class="card">
-    <div class="menu">
-        <a href="{{ url_for('index') }}" class="btn btn-primary">Create Password</a>
-        <a href="{{ url_for('verify') }}" class="btn btn-primary">Verify Password</a>
-        <a href="{{ url_for('view_hash') }}" class="btn btn-primary">View Hash</a>
-    </div>
+    <h2>View Hashed Password</h2>
 
+    {% if not session.get('password_hash') %}
+    <div class="feedback warning">
+        Please register a password first to view its hash.
+    </div>
+    {% else %}
     <form method="POST" action="{{ url_for('view_hash') }}">
         <div class="form-group">
             <label for="password">Enter Password to View Hash:</label>
@@ -20,6 +21,7 @@
     <div class="hash-display">
         {{ hash_value }}
     </div>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

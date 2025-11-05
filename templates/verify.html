@@ -3,19 +3,16 @@
 {% block content %}
 <div class="card">
     <h2>Verify Password</h2>
-
-    {% if not session.get('password_hash') %}
-    <div class="feedback warning">
-        Please register a password first to use the verification feature.
-    </div>
-    {% else %}
-    <form method="POST" action="{{ url_for('verify') }}">
+    <form method="POST" action="{{ url_for('verify') }}" id="verifyForm">
         <div class="form-group">
             <label for="password">Enter Password to Verify:</label>
             <input type="password" id="password" name="password" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary">Verify Password</button>
     </form>
-    {% endif %}
+    
+    <div class="mt-3">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Menu</a>
+    </div>
 </div>
 {% endblock %}

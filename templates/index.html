@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if not session.get('password_hash') %}
 <div class="card">
-    <h2>{% if not session.get('password_hash') %}Register Password{% else %}Register New Password{% endif %}</h2>
+    <h2>Register Password</h2>
     
     <form method="POST" action="{{ url_for('index') }}">
         <div class="form-group">
@@ -26,4 +27,23 @@
     </div>
     {% endif %}
 </div>
+{% else %}
+<div class="card menu-card">
+    <h2>Password Management Options</h2>
+    <div class="vertical-menu">
+        <a href="{{ url_for('index', new=1) }}" class="menu-btn">
+            <span class="icon">🔐</span>
+            <span class="btn-text">Register a New Password</span>
+        </a>
+        <a href="{{ url_for('view_hash') }}" class="menu-btn">
+            <span class="icon">🔍</span>
+            <span class="btn-text">Show Hashed Password</span>
+        </a>
+        <a href="{{ url_for('verify') }}" class="menu-btn">
+            <span class="icon">✅</span>
+            <span class="btn-text">Verify your current Password</span>
+        </a>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

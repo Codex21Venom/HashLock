@@ -24,14 +24,6 @@
             {% endif %}
         {% endwith %}
 
-        {% if session.get('password_hash') %}
-        <div class="menu">
-            <a href="{{ url_for('index') }}" class="btn btn-primary">Register a New Password</a>
-            <a href="{{ url_for('view_hash') }}" class="btn btn-primary">Show Hashed Password</a>
-            <a href="{{ url_for('verify') }}" class="btn btn-primary">Verify your current Password</a>
-        </div>
-        {% endif %}
-
         {% block content %}{% endblock %}
     </div>
 </body>

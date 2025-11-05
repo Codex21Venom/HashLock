@@ -33,11 +33,6 @@ Here's a quick demonstration of HashLock in action:
 
 ![HashLock Demo](./Cybersecurity_Animation_Scene_Breakdown.mp4)
 
-## Screenshots
-
-### Desktop View
-![HashLock Desktop](./DemoPic.png)
-
 ## 🧠 How It Works
 1. User enters a password — strength is checked instantly.  
 2. Password is hashed using `bcrypt` (with unique salt).  

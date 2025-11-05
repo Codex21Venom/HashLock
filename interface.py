@@ -5,9 +5,19 @@ from password_strength_checker import check_password_strength
 import os
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))  # Use environment variable or generate random key
 
-# Configure session cookie for production
+# Use a stable SECRET_KEY from environment in production. If it's missing,
+# fall back to a fixed development key so sessions remain valid across
+# requests (important for serverless deploys where random keys break cookies).
+# IMPORTANT: Set the `SECRET_KEY` environment variable in Vercel for production.
+secret = os.environ.get('SECRET_KEY')
+if not secret:
+    # Development fallback; change for production via env var
+    secret = 'dev-secret-change-me'
+app.secret_key = secret
+
+# Configure cookie settings. Keep serverless-friendly session storage (Flask's
+# signed cookie sessions). Avoid filesystem session storage on Vercel.
 app.config.update(
     SESSION_COOKIE_SECURE=True,
     SESSION_COOKIE_HTTPONLY=True,
@@ -15,8 +25,7 @@ app.config.update(
     PREFERRED_URL_SCHEME='https'  # Force HTTPS
 )
 
-# Ensure session data persists in production
-app.config['SESSION_TYPE'] = 'filesystem'
+# Make sessions persistent for a limited time in production
 if os.environ.get('FLASK_ENV') == 'production':
     app.config['SESSION_PERMANENT'] = True
     app.permanent_session_lifetime = timedelta(days=1)

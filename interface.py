@@ -4,7 +4,14 @@ from password_strength_checker import check_password_strength
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Generate a random secret key for session management
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))  # Use environment variable or generate random key
+
+# Configure session cookie for production
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax'
+)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

@@ -4,38 +4,63 @@ from password_strength_checker import check_password_strength
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # For flash messages and temporary session
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(24))
+
+# Determine if we're running on Vercel
+is_vercel = os.environ.get('VERCEL_REGION') is not None
 
 # Configure session
-app.config.update(
-    SESSION_COOKIE_SECURE=True,
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax',
-    PERMANENT_SESSION_LIFETIME=86400,  # 24 hours - will still clear on browser close
-    SESSION_REFRESH_EACH_REQUEST=True
-)
+if is_vercel:
+    # Vercel-specific session configuration
+    app.config.update(
+        SESSION_COOKIE_SECURE=True,
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE='Lax',
+        PERMANENT_SESSION_LIFETIME=86400,
+        SESSION_REFRESH_EACH_REQUEST=True,
+        SESSION_COOKIE_DOMAIN=None,  # Allow Vercel domain
+        SESSION_COOKIE_PATH='/',
+        SESSION_TYPE='filesystem'
+    )
+else:
+    # Local development configuration
+    app.config.update(
+        SESSION_COOKIE_SECURE=False,  # Allow HTTP for local development
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE='Lax',
+        PERMANENT_SESSION_LIFETIME=86400,
+        SESSION_REFRESH_EACH_REQUEST=True
+    )
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.args.get('new') == '1':
+    try:
+        if request.args.get('new') == '1':
+            session.clear()
+            return redirect(url_for('index'))
+        
+        if request.method == 'POST':
+            password = request.form.get('password')
+            strength, tips = check_password_strength(password)
+            
+            if tips:  # Password is not strong enough
+                return render_template('index.html', has_password=False, strength=strength, tips=tips)
+            
+            # Store the hash in session
+            hashed = hash_pass(password).decode()
+            session['password_hash'] = hashed
+            session.permanent = True  # Make session persistent
+            session.modified = True  # Ensure session is saved
+            flash('Password registered successfully!', 'success')
+            return redirect(url_for('index'))
+        
+        has_password = bool(session.get('password_hash'))
+        return render_template('index.html', has_password=has_password)
+        
+    except Exception as e:
+        app.logger.error(f"Session error: {str(e)}")
         session.clear()
-        return redirect(url_for('index'))
-    
-    if request.method == 'POST':
-        password = request.form.get('password')
-        strength, tips = check_password_strength(password)
-        
-        if tips:  # Password is not strong enough
-            return render_template('index.html', has_password=False, strength=strength, tips=tips)
-        
-        # Store the hash in session
-        session['password_hash'] = hash_pass(password).decode()
-        session.modified = True  # Ensure session is saved
-        flash('Password registered successfully!', 'success')
-        return redirect(url_for('index'))
-    
-    has_password = 'password_hash' in session
-    return render_template('index.html', has_password=has_password)
+        return render_template('index.html', has_password=False)
 
 @app.route('/verify', methods=['GET', 'POST'])
 def verify():
